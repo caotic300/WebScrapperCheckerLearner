@@ -46,6 +46,35 @@ def extract_data_for_company(urls, company_name):
     csvFormatter = CSVFormatter(splitted_data, company_name)
     formatted_data = csvFormatter.format()
     return formatted_data
+
+def extract_data_for_idol(urls, idol_name):
+    """Create the different classes to extract the information"""
+    idol_urlHolder = URLHolder()
+    for url in urls:
+        idol_urlHolder.add(url)
+
+    idol_website_builder = WebsiteBuilder(idol_urlHolder)
+    idol_website_builder.create_websites()
+
+    idol_scrapper_builder = ScraperBuilder(idol_website_builder)
+    idol_scrapper_builder.create_scrappers()
+
+    idol_data_extractor = DataExtractor(idol_scrapper_builder)
+    idol_data_extractor.extractData()
+
+    extracted_data = idol_data_extractor.data
+    idol_text_retriever = TextRetriever(extracted_data)
+
+    text_data = idol_text_retriever.get_text()
+
+    splitter = Splitter(text_data)
+    splitter.split()
+
+    splitted_data = splitter.splitted_data
+
+    csvFormatter = CSVFormatter(splitted_data, idol_name)
+    formatted_data = csvFormatter.format()
+    return formatted_data
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     #print_hi('PyCharm')
@@ -53,28 +82,34 @@ if __name__ == '__main__':
     #URLS of websites
 
     ## The trade desk URLS
-    TTDmorningstarURLQuote = 'https://www.morningstar.com/stocks/xnas/ttd/quote'
+    """TTDmorningstarURLQuote = 'https://www.morningstar.com/stocks/xnas/ttd/quote'
     TTDmorningstarURLNews = 'https://www.morningstar.com/stocks/xnas/ttd/news'
     TTDyahooURLSummary = 'https://finance.yahoo.com/quote/TTD?p=TTD'
     TTDwikipediaURL = 'https://en.wikipedia.org/wiki/The_Trade_Desk'
-    #TTDBloombergURL = 'https://www.bloomberg.com/quote/TTD:US'
-
+    TTDBloombergURL = 'https://www.bloomberg.com/quote/TTD:US'"""
+    
+    FamousBirthdayURL = 'https://www.famousbirthdays.com/people/olivia-rodrigo.html'
+    FamousBirthdayURL_two = 'https://www.famousbirthdays.com/people/olivia-rodrigo.html'
     # Creating the urls objets
-    TTD_morningstar_url_quote = URL('Morningstar', TTDmorningstarURLQuote)
-    TTD_morningstar_url_news = URL('Morningstar', TTDmorningstarURLNews)
-    TTD_yahoo_url = URL('Yahoo', TTDyahooURLSummary)
-    TTD_wikipedia_url = URL('Wikipedia', TTDwikipediaURL)
+    #TTD_morningstar_url_quote = URL('Morningstar', TTDmorningstarURLQuote)
+    #TTD_morningstar_url_news = URL('Morningstar', TTDmorningstarURLNews)
+    #TTD_yahoo_url = URL('Yahoo', TTDyahooURLSummary)
+    #TTD_wikipedia_url = URL('Wikipedia', TTDwikipediaURL)
+    FamousBirthday_url = URL('FamousBirthday', FamousBirthdayURL)
     #TTD_bloomberg_url = URL('Bloomberg', TTDBloombergURL)
-
+    FamousBirthday_url_rihana = URL('FamousBirthday', FamousBirthdayURL_two)
     #all urls for TTD company
-    ttd_urls = [TTD_morningstar_url_quote,
+    olivia_rodrigo_urls = [FamousBirthday_url]
+
+    rihana_urls = [FamousBirthday_url_rihana]
+    """ttd_urls = [TTD_morningstar_url_quote,
                 TTD_morningstar_url_news,
                 TTD_yahoo_url,
                 TTD_wikipedia_url]#,
-                #TTD_bloomberg_url]
+                #TTD_bloomberg_url]"""
 
     #Apple Inc Urls
-    ApplemorningstarURLQuote = 'https://www.morningstar.com/stocks/xnas/aapl/quote'
+    """ApplemorningstarURLQuote = 'https://www.morningstar.com/stocks/xnas/aapl/quote'
     ApplewikipediaURL = 'https://en.wikipedia.org/wiki/Apple_Inc.'
     AppleyahooURLSummary = 'https://finance.yahoo.com/quote/AAPL?p=AAPL'
     AppleyahooURLProfile = 'https://finance.yahoo.com/quote/AAPL/profile?p=AAPL'
@@ -258,13 +293,14 @@ if __name__ == '__main__':
                   Adobe_yahoo_url,
                   Adobe_yahoo_url_profile,
                   Adobe_wikipedia_url]#,
-                  #Adobe_bloomberg_url]
+                  #Adobe_bloomberg_url]"""
 
 
     # store starting time
     #begin = time.time()
-
-    formatted_data = [extract_data_for_company(ttd_urls, 'The Trade Desk'),
+    formatted_data = [extract_data_for_idol(olivia_rodrigo_urls, 'Olivia Rodrigo'), 
+                      extract_data_for_idol(rihana_urls, 'Rihana')]
+    """formatted_data = [extract_data_for_company(ttd_urls, 'The Trade Desk'),
                       extract_data_for_company(apple_urls, 'Apple Inc'),
                       extract_data_for_company(microsoft_urls, 'Microsoft'),
                       extract_data_for_company(amazon_urls, 'Amazon Inc'),
@@ -274,20 +310,20 @@ if __name__ == '__main__':
                       extract_data_for_company(netflix_urls, 'Netflix Inc'),
                       extract_data_for_company(nvidia_urls, 'Nvidia Inc'),
                       extract_data_for_company(adobe_urls, 'Adobe Inc'),
-                      ]
+                      ]"""
 
     final_formatted_data = []
     #print(formatted_data)
 
-    for company_data in formatted_data:
-        for company_row in company_data:
+    for idol_data in formatted_data:
+        for idol_row in idol_data:
             #print(company_data)
 
-            final_formatted_data.append(company_row)
+            final_formatted_data.append(idol_row)
 
     #find columns to find
     cols = list(final_formatted_data[0].keys())
-    file_name = 'company_data_updated_t.csv'#'company_data.csv'#
+    file_name = 'idol_data_updated_t.csv'#'company_data.csv'#
     csvSaver = CSVSaver(final_formatted_data, file_name, cols)
     csvSaver.convert()
 

@@ -69,7 +69,6 @@ class Splitter():
                     # sort the sentences
                     sentences.sort()
                     # if the sentences are not the same contained in the dict
-
                     if sentences_in_tags_dict != sentences:
                         # append the values
                         # print('sentence inserted', sentences_in_tags_dict)

@@ -3,6 +3,7 @@ from Scrappers.YahooScraper import YahooScraper
 from Scrappers.MorningstarScraper import MorningstarScraper
 from Scrappers.WikiPediaScraper import WikiPediaScraper
 from Scrappers.BloombergScraper import BloombergScraper
+from Scrappers.FamousBirthdayScraper import FamousBirthdayScraper
 from Scrappers.Scraper import Scraper
 
 class ScraperBuilder():
@@ -29,3 +30,5 @@ class ScraperBuilder():
             return WikiPediaScraper(website)
         elif scrapper_type == 'Bloomberg':
             return BloombergScraper(website)
+        elif scrapper_type == 'FamousBirthday':
+            return FamousBirthdayScraper(website)
